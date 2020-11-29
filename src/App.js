@@ -1,11 +1,18 @@
-const { default: Home } = require("./Home");
-
-function App() {
-  return (
-    <div className="App">
-      <Home />
-    </div>
-  );
+import React from "react";
+import { Route } from "react-router-dom";
+import Home from "./Home";
+import Profile from "./Profile";
+import Nav from './Nav';
+class App extends React.Component {
+  render() {
+    return (
+      <>
+        <Nav />
+        <Route path="/" exact component={Home} />
+        <Route path="/profile" component={Profile} />
+      </>
+    );
+  }
 }
 
 export default App;
