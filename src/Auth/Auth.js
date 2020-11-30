@@ -75,7 +75,7 @@ export default class Auth {
   // get the acces token from localstorage or throw an error if not found
   getAccessToken = () => {
     const accessToken = localStorage.getItem("access_token");
-    if (!accesToken) {
+    if (!accessToken) {
       throw new Error("No acces token found.")
     }
     return accessToken;
