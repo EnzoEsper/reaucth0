@@ -3,6 +3,7 @@ import auth0 from "auth0-js";
 export default class Auth {
   constructor(history) {
     this.history = history;
+    this.userProfile = null;
     this.auth0 = new auth0.WebAuth({
       domain: process.env.REACT_APP_AUTH0_DOMAIN,
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
@@ -58,6 +59,7 @@ export default class Auth {
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
+    this.userProfile = null;
     // redirects the app to the home page
     // this.history.push("/");
     
@@ -67,5 +69,34 @@ export default class Auth {
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
       returnTo: "http://localhost:3000"
     })
+  };
+
+  // FUNCTIONS TO DISPLAY THE USER'S PROFILE
+  // get the acces token from localstorage or throw an error if not found
+  getAccessToken = () => {
+    const accessToken = localStorage.getItem("access_token");
+    if (!accesToken) {
+      throw new Error("No acces token found.")
+    }
+    return accessToken;
+  };
+
+  getProfile = (cb) => {
+    // if already have a userprofile then we will inmediately return the userprofile on a provided callback to the getProfile function
+    if (this.userProfile) {
+      return cb(this.userProfile);
+    }
+   
+    // if we dont have a user profile then we call the userInfo endpoint on Auth0 and pass it the acces token
+    // the second parameter is a callback function that receives an error and a profile. If we get a profile then we set to this.userProfile
+    this.auth0.client.userInfo(this.getAccessToken(), (err, profile) => {
+      if (profile) {
+        this.userProfile = profile;
+      };
+      // we call the callback and pass to it the userprofile and any error that may ocurred
+      cb(profile, err);
+    })
   }
+
+
 }
