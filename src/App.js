@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import Home from "./Home";
 import Profile from "./Profile";
 import Nav from './Nav';
@@ -23,7 +23,8 @@ class App extends React.Component {
           {/* for passing the auth object to the home component, the solution is using a render prop instead */}
           <Route path="/" exact render={props => <Home auth={this.auth} {...props}/>} />
           <Route path="/callback" render={props => <Callback auth={this.auth} {...props}/>} />
-          <Route path="/profile" component={Profile} />
+          {/* redirect to the home page if the user isnt logged in. if the user isnt authenticated we dont want to load the profile page anyway (ternary operator)*/}
+          <Route path="/profile" render={props => this.auth.isAuthenticated() ? <Profile auth={this.auth} {...props} /> : <Redirect to="/" />} />
         </div>
       </>
     );
