@@ -11,4 +11,11 @@ export default class Auth {
       scope: "openid profile email",
     });
   }
+
+  // class property syntax
+  login = () => {
+    // method aviable in the auth0 object. This will redirect the browser
+    // tho the auth0 login page
+    this.auth0.authorize();
+  };
 }
