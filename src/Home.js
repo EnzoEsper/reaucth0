@@ -5,6 +5,7 @@ class Home extends React.Component {
     return(
       <div>
         <h1>Home</h1>
+        {/* this login method is the one that is declared in Auth.js */}
         <button onClick={this.props.auth.login}>Login</button>
       </div>
     );
