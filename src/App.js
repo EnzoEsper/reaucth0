@@ -18,7 +18,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Nav />
+        <Nav auth={this.auth}/>
         <div className="body">
           {/* for passing the auth object to the home component, the solution is using a render prop instead */}
           <Route path="/" exact render={props => <Home auth={this.auth} {...props}/>} />

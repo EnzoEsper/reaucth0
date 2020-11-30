@@ -52,4 +52,20 @@ export default class Auth {
     const expiresAt = JSON.parse(localStorage.getItem("expires_at"));
     return new Date().getTime() < expiresAt;
   };
+
+  logout = () => {
+    // we undo that we set in the login
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("id_token");
+    localStorage.removeItem("expires_at");
+    // redirects the app to the home page
+    // this.history.push("/");
+    
+
+    // this is for a non-soft logout
+    this.auth0.logout({
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      returnTo: "http://localhost:3000"
+    })
+  }
 }
